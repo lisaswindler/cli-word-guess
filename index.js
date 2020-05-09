@@ -8,9 +8,21 @@ var prompt = require("prompt");
 var Word = require("./word");
 var guesses = 10;
 var input = process.argv[2];
-// var word = new Word();
+var word = new Word();
 
-var wordArray = ["electricity", "technology", "inventions", "discovery", "scientific"];
+var allWords = ["electricity", "technology", "inventions", "discovery", "scientific", "mathematical"];
+
+var newGame = function() {  
+  var selectedWord = allWords[Math.floor(Math.random() * allWords.length)];  
+  var wordPos = allWords.indexOf(selectedWord);
+  if (allWords.length < 1) {
+          alert("Good job!");   
+      } else {
+          allWords.splice(wordPos, 1);
+      } 
+  // selectedWord = new Word(); 
+  word.returnString(selectedWord);
+}
 
 var askQuestions = function() {
   inquirer.prompt([
@@ -19,21 +31,12 @@ var askQuestions = function() {
         message: "Press a letter to make a guess"
       }
   ]).then(function(answers) {
-      var letterGuess = new Word(answers.name);
+      var character = answers.guess;
+        word.takesChar(character);
         guesses--;
   });
   }
 
-var newGame = function() {  
-    var wordChoice = wordArray[Math.floor(Math.random() * wordArray.length)];  
-    var wordPos = wordArray.indexOf(wordChoice);
-    if (wordArray.length < 1) {
-            alert("Good job!");   
-        } else {
-            wordArray.splice(wordPos, 1);
-        } 
-    console.log(wordChoice);   
-}
+
 newGame();
 askQuestions();
-returnString("happybirthday");
